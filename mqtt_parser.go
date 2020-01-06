@@ -14,6 +14,7 @@ const (
 	suback      = 0x09
 	unsubscribe = 0xA0
 	disconnect  = 0xe0
+	pingreq     = 0xc0
 )
 
 //MqttCommand describes
@@ -41,10 +42,15 @@ func GetCommand(b []byte) (MqttCommand, int, error) {
 		return MqttCommand{Command: "Subscribe", MqttLen: mqttLen}, pos, nil
 
 	case unsubscribe:
-		fmt.Printf("test")
+		fmt.Printf("test\n")
+
+	case pingreq:
+		return MqttCommand{Command: "Pingreq", MqttLen: mqttLen}, pos, nil
+		fmt.Printf("pingreq\n")
 
 	case disconnect:
-
+		
+		fmt.Printf("disconnect\n")
 	}
 
 	return MqttCommand{Command: ""}, 0, errors.New("This parser does not support this kind of message")
